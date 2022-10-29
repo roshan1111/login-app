@@ -1,0 +1,23 @@
+<%- include("./layout/header")%>
+<h1>Reset Password</h1>
+
+<form method="post">
+  <div>
+    <input
+      type="password"
+      placeholder="enter password"
+      name="password"
+      size="40"
+      required
+    />
+  </div>
+
+  <br />
+  <input type="hidden" name="userId" value="<%=userId %>" />
+
+  <button type="submit">submit</button>
+</form>
+
+<%if(typeof message !=="undefined"){ %>
+<h4 style="color: green"><%= message %></h4>
+<% }%> <%- include("./layout/footer")%>
