@@ -1,0 +1,38 @@
+<%- include("./layout/header")%>
+    <h1>Edit User Profile</h1>
+
+    <form action="/edit" method="post" enctype="multipart/form-data">
+        <div>
+        <input type="text" placeholder="enter name" name ="name"  value = "<%=userData.name %>" size="40" >
+    </div>
+    <br>
+    <div> 
+        <input type="email" placeholder="enter email" name ="email" size="40" value = "<%=userData.email %>" >
+    </div>
+    <br>
+    
+    <div>
+        <!-- <img src="uploads/<%=userData.image %>" height="100" width="100" alt="<%=userData.image %>"> -->
+ 
+        <input type="file"  name ="image"  >
+    </div>
+    <br>
+    <input type="hidden" name="userId" value="<%=userData._id %>">
+
+    <button type="submit">Edit Profile</button>
+
+
+
+
+    </form>
+
+    <%if(typeof message !=="undefined"){ %>
+        <h4 style="color:green;"> <%= message %></h4>
+        <% }%>
+
+
+
+    <%- include("./layout/footer")%>
+
+
+    

@@ -1,7 +1,7 @@
 const express = require("express");
 const session = require('express-session')
 
-const { loadRegistration, postRegistration, loadLogin, loginUser, loadHome, logout, verifyEmail, loadVerificationEmail, resendVerificationEmail, loadResetPassword, resetPassword, loadToken, resetToken } = require("../controllers/users");
+const { loadRegistration, postRegistration, loadLogin, loginUser, loadHome, logout, verifyEmail, loadVerificationEmail, resendVerificationEmail, loadResetPassword, resetPassword, loadToken, resetToken, loadEdit, editProfile,  } = require("../controllers/users");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const { upload } = require("../middlewares/uploadImage");
@@ -25,6 +25,8 @@ userRoute.use(bodyParser.json());
 userRoute.use(bodyParser.urlencoded({ extended: true }));
 // shows the information on terminal
 userRoute.use(morgan("dev"))
+//for static data from backend like image, css
+userRoute.use(express.static("public"))
 
 userRoute.get("/registration", isLoggedout, loadRegistration)
 
@@ -42,6 +44,15 @@ userRoute.post("/reset-password",isLoggedout, resetPassword)
 userRoute.get("/resetPassword",isLoggedout, loadToken)
 //reset password route and get token from url
 userRoute.post("/resetPassword",isLoggedout, resetToken)
+//edit rout
+userRoute.get("/edit", isLoggedin, loadEdit)
+userRoute.post("/edit",upload.single("image"), editProfile)
+
+//delete user 
+// userRoute.get("/delete", isLoggedin, deleteUser )
+
+
+
 
 
 

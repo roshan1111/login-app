@@ -67,8 +67,8 @@ const loginUser = async (req, res) => {
 
 const loadHome = async (req, res) => {
   try {
-    const userData = await User.findOne({_id:req.session.userID})
-    res.status(200).render("home", {userData});
+    const userData = await User.findOne({ _id: req.session.userID });
+    res.status(200).render("home", { userData });
   } catch (error) {
     res.status(500).send({
       message: error.message,
@@ -105,7 +105,7 @@ const postRegistration = async (req, res) => {
 
     const saveduser = await newUser.save();
     if (saveduser) {
-      sendVerificationEmail(saveduser.email, saveduser.email, saveduser._id);
+      sendVerificationEmail(saveduser.name, saveduser.email, saveduser._id);
       res.status(201).render("registration", {
         message: "registration sucessful. Please verify email",
       });
@@ -160,7 +160,7 @@ const resendVerificationEmail = async (req, res) => {
           message: "user is already verified",
         });
       } else {
-        sendVerificationEmail(userData.email, userData.email, userData._id);
+        sendVerificationEmail(userData.name, userData.email, userData._id);
         res.render("resendVerificationEmail", {
           message: "verification link send",
         });
@@ -229,7 +229,7 @@ const loadToken = async (req, res) => {
     const token = req.query.token;
     const userData = await User.findOne({ token: token });
     if (userData) {
-      res.render("resetView", {userId: userData._id });
+      res.render("resetView", { userId: userData._id });
     }
   } catch (error) {
     res.status(500).send({
@@ -262,6 +262,85 @@ const resetToken = async (req, res) => {
   }
 };
 
+//edit profile
+const loadEdit = async (req, res) => {
+  try {
+    //fetch the id from url
+    const id = req.query.id;
+    //get all data comparing db _id and url id
+    const userData = await User.findById({ _id: id });
+    if (userData) {
+      //sending userData to edit page
+      res.status(200).render("edit", { userData: userData });
+    } else {
+      res.status(200).redirect("/home");
+    }
+  } catch (error) {
+    res.status(500).send({
+      message: error.message,
+    });
+  }
+};
+
+const editProfile = async (req, res) => {
+  try {
+    const userId = req.body.userId;
+    const email = req.body.email;
+    const name = req.body.name;
+    const image = req.file.filename;
+    //checking the field data from edit page
+    console.log(req.body)
+
+    if (req.file) {
+      const userData = await User.findByIdAndUpdate(
+        { _id: userId },
+        {
+          $set: {
+            email: email,
+            name: name,
+            image: image,
+          },
+        }
+      );
+    } else {
+      const userData = await User.findByIdAndUpdate(
+        { _id: userId },
+        {
+          $set: {
+            email: email,
+            name: name,
+          },
+        }
+      );
+    }
+
+    res.redirect("/home");
+  } catch (error) {
+    res.status(500).send({
+      message: error.message,
+    });
+  }
+};
+
+
+// const deleteUser = async(req, res)=>{
+//   const userId = req.query.id
+
+//   console.log(userId)
+//     try{
+//       const userData = await User.findByIdAndDelete({_id: userId})
+      
+
+
+
+//     }
+//     catch(error){
+//         res.status(500).send({
+//             message: error.message
+//         })
+//     }
+// }
+
 module.exports = {
   loadRegistration,
   postRegistration,
@@ -276,4 +355,7 @@ module.exports = {
   resetPassword,
   loadToken,
   resetToken,
+  loadEdit,
+  editProfile,
+  
 };

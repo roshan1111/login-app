@@ -1,0 +1,33 @@
+<%- include("../layout/header")%>
+    <h1>admin Login</h1>
+
+    <form  method="post">
+        
+    <div>
+        <input type="email" placeholder="enter email" name ="email" size="40" required>
+    </div>
+    <br>
+    <div>
+        <input type="password" placeholder="enter password" name ="password" size="40" required>
+    </div>
+    
+    <br>
+
+    <button type="submit">Login</button>
+
+
+
+    </form>
+    <br>
+    <a href="/admin/reset-password">Forget password</a>
+
+
+   
+    <%if(typeof message !=="undefined"){ %>
+        <h4 style="color:green;"> <%= message %></h4>
+        <% }%>
+
+    <%- include("../layout/footer")%>
+
+
+    

@@ -1,0 +1,56 @@
+<%- include("../layout/header")%>
+<h1>Welcome to the Dashboard</h1>
+
+<a href="/admin/addUser">Add New Users</a>
+<br><br>
+
+<form >
+  <label for="search"> Search with name or email:</label>
+<input type="text" name="search" >
+<button type="submit">Search</button>
+</form>
+
+
+<br><br>
+
+<!-- <p><%= userData %></p> -->
+
+<% if(userData.length>0){ %> <% for(let x = 0; x < userData.length; x++ ){ %>
+<div>
+    <img src="uploads/<%=userData[x].image %>" height="100" width="100" alt="<%=userData[x].image %>">
+
+
+  <h2>Name: <%= userData[x].name %></h2>
+  <p>Email: <%= userData[x].email %></p>
+  <%if(userData[x].isVerify===1){%>
+    <p> Verify Status: verified</p>
+    <%}else{%>
+    <p>Verify Status: not verified</p>
+    <%}%>
+    <a href="/admin/editUser?id=<%=userData[x]._id %>">Edit Users</a>
+    <br>
+    <a href="/admin/deleteUser?id=<%=userData[x]._id %>">Delete Users</a>
+    <br>
+
+
+
+</div>
+
+<% }%> <% } %> 
+
+
+<%if(currentPage > 1){%>
+  <a href="?page=<%=prevPage%>">Previous</a>
+
+<%}%>
+<% for(let pageNumber = 1 ; pageNumber <= totalPages; pageNumber++){ %>
+<a href="?page=<%=pageNumber%>"><%=pageNumber%></a>
+<%}%>
+<%if(currentPage < totalPages){%>
+<a href="?page=<%=nextPage%>">Next</a>
+<%}%>
+
+
+
+</userData.length>
+<%- include("../layout/footer")%>

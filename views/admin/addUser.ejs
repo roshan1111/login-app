@@ -1,0 +1,41 @@
+<%- include("../layout/header")%>
+    <h1>User Registration By Admin</h1>
+
+    <form method="post" action="/admin/addUser" enctype="multipart/form-data">
+        <div>
+        <input type="text" placeholder="enter name" name ="name" size="40" required>
+    </div>
+    <br>
+    <div>
+        <input type="email" placeholder="enter email" name ="email" size="40" required>
+    </div>
+    <br>
+    <div>
+        <input type="password" placeholder="enter password" name ="password" size="40" required>
+    </div>
+    <br>
+    <div>
+        <input type="password" placeholder="enter 0 for user 1 for admin" name ="isAdmin" size="40" required>
+    </div>
+    <br>
+    <div>
+        <input type="file"  name ="image" required >
+    </div>
+    <br>
+
+    <button type="submit">Submit</button>
+
+
+
+    </form>
+
+    <%if(typeof message !=="undefined"){ %>
+        <h4 style="color:green;"> <%= message %></h4>
+        <% }%>
+
+
+
+    <%- include("../layout/footer")%>
+
+
+    
